@@ -3,6 +3,7 @@ package day03;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import utils.Utils;
 
@@ -46,12 +47,39 @@ public class Day03 {
 		}
 	}
 
+	private record Gear(Symbol symbol, Part part1, Part part2) {
+		public int ratio() {
+			return part1.number * part2.number;
+		}
+	}
+
 	public static int part1(final String str) {
 		String[] lines = Utils.splitLines(str);
 		Collection<Symbol> symbols = getSpecialChars(lines);
 		Collection<Part> parts = getParts(lines);
 
 		return parts.parallelStream().filter(part -> part.isNearbyAny(symbols)).mapToInt(Part::number).sum();
+	}
+
+	public static int part2(final String str) {
+		String[] lines = Utils.splitLines(str);
+		Collection<Symbol> symbols = getSpecialChars(lines);
+		Collection<Part> parts = getParts(lines);
+
+		return symbols.parallelStream()
+				.filter(symbol -> symbol.c == '*')
+				.map(maybeAGear -> toGears(maybeAGear, parts))
+				.filter(Objects::nonNull)
+				.mapToInt(Gear::ratio)
+				.sum();
+	}
+
+	private static Gear toGears(final Symbol maybeAGear, final Collection<Part> parts) {
+		Part[] gearParts = parts.parallelStream().filter(part -> part.isNearby(maybeAGear)).toArray(Part[]::new);
+		if (gearParts.length != 2) {
+			return null;
+		}
+		return new Gear(maybeAGear, gearParts[0], gearParts[1]);
 	}
 
 	private static Collection<Part> getParts(final String[] lines) {

@@ -177,4 +177,18 @@ class Day03Test {
 
 	}
 
+	@Nested
+	class Part2 {
+		@Test
+		void example() throws Exception {
+			assertEquals(467_835, Day03.part2(EXAMPLE));
+		}
+
+		@Test
+		void inputFile() throws Exception {
+			Integer gearRatios = Day03.part2(Files.readString(INPUT_FILE_PATH));
+			System.out.println("Gear ratios : " + gearRatios);
+		}
+	}
+
 }
