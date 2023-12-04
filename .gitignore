@@ -1,0 +1,5 @@
+inputs/
+target/
+.settings/
+.project
+.classpath
