@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class Utils {
 
@@ -15,5 +16,9 @@ public class Utils {
 
 	public static String[] splitLines(final String str) {
 		return str.split("\r?\n");
+	}
+
+	public static <T> Predicate<T> not(final Predicate<T> predicate) {
+		return predicate.negate();
 	}
 }
