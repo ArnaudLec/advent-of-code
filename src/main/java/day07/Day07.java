@@ -42,7 +42,7 @@ public class Day07 {
 		}
 	}
 
-	public enum HandType implements HandsMatcher {
+	public enum HandType {
 		FIVE_OF_A_KIND {
 			@Override
 			public boolean isMatching(final int[] countOfCards, final int countOfJokers) {
@@ -93,9 +93,14 @@ public class Day07 {
 		HIGH_CARD {
 			@Override
 			public boolean isMatching(final int[] countOfCards, final int countOfJokers) {
+				if (countOfJokers > 0) {
+					throw new IllegalStateException(this + " is not possible with jokers in hand");
+				}
 				return true;
 			}
 		};
+
+		abstract boolean isMatching(int[] countOfCards, int countOfJokers);
 
 		public static HandType fromHand(final char[] hand, final Day07Part part) {
 			int[] matches = getCountOfCards(hand, part);
@@ -110,10 +115,6 @@ public class Day07 {
 			}
 			throw new IllegalStateException("Could not find HandType for " + Arrays.toString(hand));
 		}
-	}
-
-	private interface HandsMatcher {
-		boolean isMatching(int[] countOfCards, int countOfJokers);
 	}
 
 	private static int[] getCountOfCards(final char[] cards, final Day07Part part) {
