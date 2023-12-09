@@ -7,7 +7,11 @@ public class Utils {
 
 	public static int toInt(final char c) {
 		// subtracting 0 char code to have integer value of c
-		return c - '0';
+		int intVal = c - '0';
+		if (intVal < 0 || intVal >= 10) {
+			throw new IllegalArgumentException("Character [" + c + "] is not a digit");
+		}
+		return intVal;
 	}
 
 	public static char[][] to2dArray(final String str) {
@@ -20,5 +24,22 @@ public class Utils {
 
 	public static <T> Predicate<T> not(final Predicate<T> predicate) {
 		return predicate.negate();
+	}
+
+	public static int arrayContains(final int[] array, final int value) {
+		return arrayContains(array, value, 0);
+	}
+
+	public static int arrayContains(final int[] array, final int value, final int fromIndex) {
+		return arrayContains(array, value, fromIndex, array.length);
+	}
+
+	public static int arrayContains(final int[] array, final int value, final int fromIndex, final int endIndex) {
+		for (int i = fromIndex; i < endIndex && i < array.length; i++) {
+			if (array[i] == value) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
