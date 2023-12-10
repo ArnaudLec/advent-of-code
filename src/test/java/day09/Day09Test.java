@@ -49,12 +49,20 @@ public class Day09Test {
 
 		@Test
 		void example() throws Exception {
-
+			List<History> histories = Day09.parse(EXAMPLE);
+			long result = sumPreviousValues(histories);
+			assertEquals(2, result);
 		}
 
 		@Test
 		void inputFile() throws Exception {
+			List<History> histories = Day09.parse(Files.readString(INPUT_FILE_PATH));
+			long result = sumPreviousValues(histories);
+			System.out.println(result);
+		}
 
+		private long sumPreviousValues(final List<History> histories) {
+			return histories.stream().mapToLong(History::findPreviousValue).sum();
 		}
 	}
 

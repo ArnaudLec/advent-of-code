@@ -42,6 +42,36 @@ class Day09 {
 			return firstLineWithEmptySlot[firstLineWithEmptySlot.length - 1];
 		}
 
+		public long findPreviousValue() {
+			List<long[]> datasetList = new ArrayList<>();
+
+			long[] firstLineWithEmptySlot = new long[dataset.length + 1];
+			for (int i = 0; i < dataset.length; i++) {
+				firstLineWithEmptySlot[i + 1] = dataset[i];
+			}
+			datasetList.add(firstLineWithEmptySlot);
+
+			// descending
+			while (!lastLineIsOnlyZeroes(datasetList)) {
+				long[] lastLine = datasetList.get(datasetList.size() - 1);
+				long[] diffDataset = new long[lastLine.length - 1];
+				for (int i = 1; i < diffDataset.length; i++) {
+					diffDataset[i] = lastLine[i + 1] - lastLine[i];
+
+				}
+				datasetList.add(diffDataset);
+			}
+
+			// ascending
+			for (int i = datasetList.size() - 2; i >= 0; i--) {
+				long[] previousLine = datasetList.get(i + 1);
+				long[] currentLine = datasetList.get(i);
+				currentLine[0] = currentLine[1] - previousLine[0];
+			}
+			print(datasetList);
+			return firstLineWithEmptySlot[0];
+		}
+
 		private boolean lastLineIsOnlyZeroes(final List<long[]> datasetList) {
 			return Arrays.stream(datasetList.get(datasetList.size() - 1)).allMatch(i -> i == 0);
 		}
