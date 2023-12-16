@@ -20,17 +20,17 @@ class Day15Test {
 
 		@Test
 		void example0() throws Exception {
-			assertEquals(52, Day15.calc("HASH"));
+			assertEquals(52, Day15.calcPart1("HASH"));
 		}
 
 		@Test
 		void example() throws Exception {
-			assertEquals(1320, Day15.calc(EXAMPLE));
+			assertEquals(1320, Day15.calcPart1(EXAMPLE));
 		}
 
 		@Test
 		void inputFile() throws Exception {
-			System.out.println(Day15.calc(Files.readString(INPUT_FILE_PATH)));
+			System.out.println(Day15.calcPart1(Files.readString(INPUT_FILE_PATH)));
 		}
 	}
 
@@ -39,12 +39,12 @@ class Day15Test {
 
 		@Test
 		void example() throws Exception {
-
+			assertEquals(145, Day15.calcPart2(EXAMPLE));
 		}
 
 		@Test
 		void inputFile() throws Exception {
-
+			System.out.println(Day15.calcPart2(Files.readString(INPUT_FILE_PATH)));
 		}
 	}
 
