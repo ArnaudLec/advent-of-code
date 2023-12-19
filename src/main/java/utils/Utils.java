@@ -1,7 +1,9 @@
 package utils;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -12,10 +14,6 @@ public class Utils {
 			throw new IllegalArgumentException("Character [" + c + "] is not a digit");
 		}
 		return intVal;
-	}
-
-	public static char[][] to2dArray(final String str) {
-		return Arrays.stream(splitLines(str)).map(String::toCharArray).toArray(char[][]::new);
 	}
 
 	public static String[] splitLines(final String str) {
@@ -41,5 +39,23 @@ public class Utils {
 			}
 		}
 		return -1;
+	}
+
+	public static int[] toIntArray(final Collection<Integer> collection) {
+		return collection.stream().mapToInt(Integer::intValue).toArray();
+	}
+
+	public static long[] toLongArray(final Collection<Long> collection) {
+		return collection.stream().mapToLong(Long::longValue).toArray();
+	}
+
+	public static char[][] to2dArray(final String str) {
+		return Arrays.stream(splitLines(str)).map(String::toCharArray).toArray(char[][]::new);
+	}
+
+	public static String toString(final char[][] twoDimensionArray) {
+		return Arrays.stream(twoDimensionArray)
+				.map(String::valueOf)
+				.collect(Collectors.joining(System.lineSeparator()));
 	}
 }
