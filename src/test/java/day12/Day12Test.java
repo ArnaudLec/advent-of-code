@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import day12.Day12.Springs;
 import utils.TestUtils;
 
 class Day12Test {
@@ -28,12 +29,12 @@ class Day12Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(21, Day12.sumPossibleArrangements(EXAMPLE));
+			assertEquals(21, Day12.sumPossibleArrangements(EXAMPLE, Springs::fromRowPart1));
 		}
 
 		@Test
 		void inputFile() throws Exception {
-			System.out.println(Day12.sumPossibleArrangements(Files.readString(INPUT_FILE_PATH)));
+			System.out.println(Day12.sumPossibleArrangements(Files.readString(INPUT_FILE_PATH), Springs::fromRowPart1));
 		}
 	}
 
@@ -42,12 +43,12 @@ class Day12Test {
 
 		@Test
 		void example() throws Exception {
-
+			assertEquals(525152, Day12.sumPossibleArrangements(EXAMPLE, Springs::fromRowPart2));
 		}
 
 		@Test
 		void inputFile() throws Exception {
-
+			System.out.println(Day12.sumPossibleArrangements(Files.readString(INPUT_FILE_PATH), Springs::fromRowPart2));
 		}
 	}
 
