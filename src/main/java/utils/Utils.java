@@ -58,4 +58,16 @@ public class Utils {
 				.map(String::valueOf)
 				.collect(Collectors.joining(System.lineSeparator()));
 	}
+
+	public static char[][] rotateRight(char[][] twoDimensionArray) {
+		final int rows = twoDimensionArray.length;
+		final int cols = twoDimensionArray[0].length;
+		char[][] rotated = new char[cols][rows];
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				rotated[col][rows - row - 1] = twoDimensionArray[row][col];
+			}
+		}
+		return rotated;
+	}
 }
