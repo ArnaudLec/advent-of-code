@@ -4,16 +4,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>a.group.id</groupId>
+	<groupId>com.github.arnaudlec</groupId>
 	<artifactId>advent-of-code</artifactId>
 	<version>0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>2023</module>
+		<module>utils</module>
+		<module>2024</module>
+	</modules>
 
 	<properties>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.source>23</maven.compiler.source>
+		<maven.compiler.target>23</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.version>5.10.1</junit.version>
-		<assertj.version>3.24.2</assertj.version>
+		<junit.version>5.11.3</junit.version>
+		<assertj.version>3.26.3</assertj.version>
 	</properties>
 
 	<dependencies>
@@ -42,7 +49,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.5.2</version>
 			</plugin>
 		</plugins>
 	</build>
