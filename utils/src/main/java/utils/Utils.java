@@ -3,9 +3,12 @@ package utils;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
+
+	private static final Pattern SPLIT_LINES_PATTERN = Pattern.compile("\r?\n");
 
 	public static int toInt(final char c) {
 		// subtracting 0 char code to have integer value of c
@@ -17,7 +20,7 @@ public class Utils {
 	}
 
 	public static String[] splitLines(final String str) {
-		return str.split("\r?\n");
+		return SPLIT_LINES_PATTERN.split(str);
 	}
 
 	public static <T> Predicate<T> not(final Predicate<T> predicate) {
@@ -54,8 +57,7 @@ public class Utils {
 	}
 
 	public static String toString(final char[][] twoDimensionArray) {
-		return Arrays.stream(twoDimensionArray)
-				.map(String::valueOf)
+		return Arrays.stream(twoDimensionArray).map(String::valueOf)
 				.collect(Collectors.joining(System.lineSeparator()));
 	}
 

@@ -1,4 +1,4 @@
-package day${day};
+package day01;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,17 +11,24 @@ import org.junit.jupiter.api.Test;
 
 import utils.TestUtils;
 
-class Day${day}Test {
-	private static final Path INPUT_FILE_PATH = TestUtils.getInputFile("day${day}-input.txt");
+class Day01Test {
+
+	private static final Path INPUT_FILE_PATH = TestUtils.getInputFile("day01-input.txt");
 
 	private static final String EXAMPLE = """
-						""";
+			3   4
+			4   3
+			2   5
+			1   3
+			3   9
+			3   3
+			""";
 
-	private static String inputFile;
-	
+	private static String INPUT_FILE;
+
 	@BeforeAll
 	static void readInputFile() throws Exception {
-		inputFile = Files.readString(INPUT_FILE_PATH);
+		INPUT_FILE = Files.readString(INPUT_FILE_PATH);
 	}
 
 	@Nested
@@ -29,13 +36,12 @@ class Day${day}Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(11, Day01.parse(EXAMPLE).getDistance());
 		}
 
 		@Test
 		void inputFile() throws Exception {
-			
-			System.out.println();
+			System.out.println(Day01.parse(INPUT_FILE).getDistance());
 		}
 	}
 
@@ -44,13 +50,12 @@ class Day${day}Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(31, Day01.parse(EXAMPLE).getSimilarityScore());
 		}
 
 		@Test
 		void inputFile() throws Exception {
-			
-			System.out.println();
+			System.out.println(Day01.parse(INPUT_FILE).getSimilarityScore());
 		}
 	}
 
