@@ -47,14 +47,14 @@ class Day04Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(9, EXAMPLE);
+			assertEquals(9, Day04.countMases(EXAMPLE));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println();
+			System.out.println(Day04.countMases(file));
 		}
 	}
 

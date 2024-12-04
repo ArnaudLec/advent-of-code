@@ -4,9 +4,8 @@ import utils.Utils;
 
 class Day04 {
 
-	private static final char[] FOLLOWING_CHARS = { 'M', 'A', 'S' };
-
 	public static int countXmases(String input) {
+		char[] followingChars = { 'M', 'A', 'S' };
 		char[][] chars = Utils.to2dArray(input);
 		int counter = 0;
 
@@ -14,18 +13,41 @@ class Day04 {
 			for (int column = 0; column < chars[line].length; column++) {
 				if (chars[line][column] == 'X') {
 					for (Direction dir : Direction.values()) {
-						for (int shift = 1; shift <= FOLLOWING_CHARS.length; shift++) {
+						for (int shift = 1; shift <= followingChars.length; shift++) {
 							char c = dir.getChar(chars, line, column, shift);
-							if (c != FOLLOWING_CHARS[shift - 1]) {
+							if (c != followingChars[shift - 1]) {
 								break;
 							}
-							if (shift == FOLLOWING_CHARS.length) {
+							if (shift == followingChars.length) {
 								// found
 								counter++;
 							}
 						}
 					}
 
+				}
+			}
+		}
+
+		return counter;
+	}
+
+	public static int countMases(String input) {
+		char[][] chars = Utils.to2dArray(input);
+		int counter = 0;
+
+		for (int line = 0; line < chars.length; line++) {
+			for (int column = 0; column < chars[line].length; column++) {
+				if (chars[line][column] == 'A') {
+					char nec = Direction.NORTH_EAST.getChar(chars, line, column, 1);
+					char swc = Direction.SOUTH_WEST.getChar(chars, line, column, 1);
+					if ((nec == 'M' || nec == 'S') && (swc == 'M' || swc == 'S') && nec != swc) {
+						char nwc = Direction.NORTH_WEST.getChar(chars, line, column, 1);
+						char sec = Direction.SOUTH_EAST.getChar(chars, line, column, 1);
+						if ((nwc == 'M' || nwc == 'S') && (sec == 'M' || sec == 'S') && nwc != sec) {
+							counter++;
+						}
+					}
 				}
 			}
 		}
@@ -57,4 +79,5 @@ class Day04 {
 			return chars[lineWithShift][columnWithShift];
 		}
 	}
+
 }
