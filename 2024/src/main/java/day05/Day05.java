@@ -8,11 +8,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import utils.Part;
 import utils.Utils;
 
 class Day05 {
 
-	public static int sumSortedMiddlePageNumber(String input) {
+	public static int sumSortedMiddlePageNumber(String input, Part part) {
 		String[] inputParts = input.split("\n\n");
 
 		Map<Integer, Set<Integer>> pageOrderingRules = parsePageOrderingRules(inputParts[0]);
@@ -22,8 +23,19 @@ class Day05 {
 		for (String str : Utils.splitLines(inputParts[1])) {
 			List<Integer> pagesOrder = Arrays.stream(str.split(",")).map(Integer::valueOf).toList();
 			List<Integer> pagesOrderWithRule = pagesOrder.stream().sorted(pageOrderComparator).toList();
-			if (pagesOrder.equals(pagesOrderWithRule)) {
-				sum += pagesOrder.get(pagesOrder.size() / 2);
+
+			boolean isRightOrder = pagesOrder.equals(pagesOrderWithRule);
+			switch (part) {
+			case PART_1:
+				if (isRightOrder) {
+					sum += pagesOrder.get(pagesOrder.size() / 2);
+				}
+				break;
+			case PART_2:
+				if (!isRightOrder) {
+					sum += pagesOrderWithRule.get(pagesOrder.size() / 2);
+				}
+				break;
 			}
 		}
 

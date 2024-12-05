@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import utils.Part;
 import utils.TestUtils;
 
 class Day05Test {
@@ -49,14 +50,14 @@ class Day05Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(143, Day05.sumSortedMiddlePageNumber(EXAMPLE));
+			assertEquals(143, Day05.sumSortedMiddlePageNumber(EXAMPLE, Part.PART_1));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println(Day05.sumSortedMiddlePageNumber(file));
+			System.out.println(Day05.sumSortedMiddlePageNumber(file, Part.PART_1));
 		}
 	}
 
@@ -65,14 +66,14 @@ class Day05Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(123, Day05.sumSortedMiddlePageNumber(EXAMPLE, Part.PART_2));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println();
+			System.out.println(Day05.sumSortedMiddlePageNumber(file, Part.PART_2));
 		}
 	}
 
