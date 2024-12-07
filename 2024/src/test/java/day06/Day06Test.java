@@ -47,14 +47,14 @@ class Day06Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(6, Day06.getPossibleObstructionPositions(EXAMPLE));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println();
+			System.out.println(Day06.getPossibleObstructionPositions(file));
 		}
 	}
 

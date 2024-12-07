@@ -2,18 +2,45 @@ package day06;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiFunction;
 
+import utils.Part;
 import utils.Utils;
 
 class Day06 {
 
 	public static int calcDistinctPositions(String input) {
 		char[][] map = Utils.to2dArray(input);
+		return getGuardWalkingPositions(map, (pos, _) -> pos, Part.PART_1).size();
+	}
 
-		Set<Position> walkedByPosition = new HashSet<>();
+	public static int getPossibleObstructionPositions(String input) {
+		char[][] map = Utils.to2dArray(input);
+		Set<Position> obstructionPositions = new HashSet<>();
 		Position startingPosition = getStartingPosition(map);
-		walkedByPosition.add(startingPosition);
+
+		Set<Position> walkingPositions = getGuardWalkingPositions(map, (pos, _) -> pos, Part.PART_1);
+		walkingPositions.remove(startingPosition);
+
+		for (Position p : walkingPositions) {
+			map[p.x][p.y] = '#';
+			Set<PositionWithDirection> guardPositionWithDirections = getGuardWalkingPositions(map,
+					PositionWithDirection::new, Part.PART_2);
+			if (guardPositionWithDirections.isEmpty()) {
+				obstructionPositions.add(p);
+			}
+			map[p.x][p.y] = '.';
+		}
+
+		return obstructionPositions.size();
+	}
+
+	private static <X> Set<X> getGuardWalkingPositions(char[][] map,
+			BiFunction<Position, Direction, X> accumulatorFunction, Part part) {
+		Set<X> walkedByPosition = new HashSet<>();
+		Position startingPosition = getStartingPosition(map);
 		Direction dir = Direction.NORTH;
+		walkedByPosition.add(accumulatorFunction.apply(startingPosition, dir));
 
 		int x = startingPosition.x;
 		int y = startingPosition.y;
@@ -26,7 +53,12 @@ class Day06 {
 				break;
 			}
 			if (map[x][y] != '#') {
-				walkedByPosition.add(new Position(x, y));
+				Position position = new Position(x, y);
+				X mappedPosition = accumulatorFunction.apply(position, dir);
+				boolean alreadyPresent = !walkedByPosition.add(mappedPosition);
+				if (alreadyPresent && part == Part.PART_2) {
+					return Set.of();
+				}
 			} else {
 				x -= dir.verticalShift;
 				y -= dir.horizontalShift;
@@ -34,7 +66,7 @@ class Day06 {
 			}
 		} while (x < map.length && y < map[0].length);
 
-		return walkedByPosition.size();
+		return walkedByPosition;
 	}
 
 	private static Position getStartingPosition(char[][] map) {
@@ -49,6 +81,10 @@ class Day06 {
 	}
 
 	private record Position(int x, int y) {
+
+	}
+
+	private record PositionWithDirection(Position pos, Direction dir) {
 
 	}
 
@@ -70,4 +106,5 @@ class Day06 {
 			return Direction.values()[ordinal() + 1];
 		}
 	}
+
 }
