@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import day07.Day07.Operation;
 import utils.TestUtils;
 
 class Day07Test {
@@ -30,14 +32,14 @@ class Day07Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(3749, Day07.calcCalibrationStatus(EXAMPLE));
+			assertEquals(3749, Day07.calcCalibrationStatus(EXAMPLE, Set.of(Operation.ADD, Operation.MULTIPLY)));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println(Day07.calcCalibrationStatus(file));
+			System.out.println(Day07.calcCalibrationStatus(file, Set.of(Operation.ADD, Operation.MULTIPLY)));
 		}
 	}
 
@@ -46,14 +48,14 @@ class Day07Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(11387, Day07.calcCalibrationStatus(EXAMPLE, Set.of(Operation.values())));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println();
+			System.out.println(Day07.calcCalibrationStatus(file, Set.of(Operation.values())));
 		}
 	}
 
