@@ -74,24 +74,18 @@ class Day08 {
 						int rowDiff = a.row - b.row;
 						int colDiff = a.col - b.col;
 
-						if (part == Part.PART_1) {
-							Stream.of(new Position(a.row + rowDiff, a.col + colDiff),
-									new Position(b.row - rowDiff, b.col - colDiff))
-									.filter(pos -> pos.isInBounds(rows, cols)).forEach(antinodes::add);
+						int factor = part == Part.PART_1 ? 1 : 0;
+						boolean stop = false;
+						do {
+							List<Position> antinodePositions = Stream
+									.of(new Position(a.row + factor * rowDiff, a.col + factor * colDiff),
+											new Position(b.row - factor * rowDiff, b.col - factor * colDiff))
+									.filter(pos -> pos.isInBounds(rows, cols)).toList();
 
-						} else {
-							for (int factor = 0;; factor++) {
-								List<Position> antinodePositions = Stream
-										.of(new Position(a.row + factor * rowDiff, a.col + factor * colDiff),
-												new Position(b.row - factor * rowDiff, b.col - factor * colDiff))
-										.filter(pos -> pos.isInBounds(rows, cols)).toList();
-								antinodes.addAll(antinodePositions);
-
-								if (antinodePositions.isEmpty()) {
-									break;
-								}
-							}
-						}
+							antinodes.addAll(antinodePositions);
+							stop = part == Part.PART_1 || antinodePositions.isEmpty();
+							factor++;
+						} while (!stop);
 					}
 				}
 			}
