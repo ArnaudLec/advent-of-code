@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import utils.Part;
 import utils.TestUtils;
 
 class Day08Test {
@@ -43,7 +44,7 @@ class Day08Test {
 		}
 
 		private static int calc(String input) {
-			return Day08.antennasMap(input).getAntinodesMap().getUniquePositions().size();
+			return Day08.antennasMap(input).getAntinodesMap(Part.PART_1).getUniquePositions().size();
 		}
 	}
 
@@ -52,14 +53,17 @@ class Day08Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(34, calc(EXAMPLE));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
+			System.out.println(calc(file));
+		}
 
-			System.out.println();
+		private static int calc(String input) {
+			return Day08.antennasMap(input).getAntinodesMap(Part.PART_2).getUniquePositions().size();
 		}
 	}
 

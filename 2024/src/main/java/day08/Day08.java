@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import utils.Part;
 import utils.Utils;
 
 class Day08 {
@@ -57,7 +58,7 @@ class Day08 {
 			return Utils.mapOfCollectionsToString(positions);
 		}
 
-		public AntinodesMap getAntinodesMap() {
+		public AntinodesMap getAntinodesMap(Part part) {
 			Map<Character, Set<Position>> antinodesMap = new TreeMap<>();
 
 			for (Entry<Character, List<Position>> entry : positions.entrySet()) {
@@ -73,9 +74,24 @@ class Day08 {
 						int rowDiff = a.row - b.row;
 						int colDiff = a.col - b.col;
 
-						Stream.of(new Position(a.row + rowDiff, a.col + colDiff),
-								new Position(b.row - rowDiff, b.col - colDiff))
-								.filter(pos -> pos.isInBounds(rows, cols)).forEach(antinodes::add);
+						if (part == Part.PART_1) {
+							Stream.of(new Position(a.row + rowDiff, a.col + colDiff),
+									new Position(b.row - rowDiff, b.col - colDiff))
+									.filter(pos -> pos.isInBounds(rows, cols)).forEach(antinodes::add);
+
+						} else {
+							for (int factor = 0;; factor++) {
+								List<Position> antinodePositions = Stream
+										.of(new Position(a.row + factor * rowDiff, a.col + factor * colDiff),
+												new Position(b.row - factor * rowDiff, b.col - factor * colDiff))
+										.filter(pos -> pos.isInBounds(rows, cols)).toList();
+								antinodes.addAll(antinodePositions);
+
+								if (antinodePositions.isEmpty()) {
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
