@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -54,8 +56,7 @@ public class Utils {
 	}
 
 	public static String toString(final char[][] twoDimensionArray) {
-		return Arrays.stream(twoDimensionArray)
-				.map(String::valueOf)
+		return Arrays.stream(twoDimensionArray).map(String::valueOf)
 				.collect(Collectors.joining(System.lineSeparator()));
 	}
 
@@ -69,5 +70,24 @@ public class Utils {
 			}
 		}
 		return rotated;
+	}
+
+	public static <K, C extends Collection<V>, V> String mapOfCollectionsToString(Map<K, C> map) {
+		StringBuilder str = new StringBuilder();
+		for (Entry<K, C> entry : map.entrySet()) {
+			if (!str.isEmpty()) {
+				str.append(System.lineSeparator());
+			}
+			str.append(entry.getKey()).append(" {");
+			StringBuilder valsStr = new StringBuilder();
+			for (V val : entry.getValue()) {
+				if (!valsStr.isEmpty()) {
+					valsStr.append(',');
+				}
+				valsStr.append(val);
+			}
+			str.append(valsStr).append('}');
+		}
+		return str.toString();
 	}
 }
