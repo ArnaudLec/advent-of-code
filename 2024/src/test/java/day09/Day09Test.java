@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import utils.Part;
 import utils.TestUtils;
 
 class Day09Test {
@@ -20,14 +21,14 @@ class Day09Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(1928, Day09.getChecksumAfterCompacting(EXAMPLE));
+			assertEquals(1928, Day09.getChecksumAfterCompacting(EXAMPLE, Part.PART_1));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println(Day09.getChecksumAfterCompacting(file));
+			System.out.println(Day09.getChecksumAfterCompacting(file, Part.PART_1));
 		}
 	}
 
@@ -36,14 +37,14 @@ class Day09Test {
 
 		@Test
 		void example() throws Exception {
-			assertEquals(0, EXAMPLE);
+			assertEquals(2858, Day09.getChecksumAfterCompacting(EXAMPLE, Part.PART_2));
 		}
 
 		@Test
 		void inputFile() throws Exception {
 			String file = Files.readString(INPUT_FILE_PATH);
 
-			System.out.println();
+			System.out.println(Day09.getChecksumAfterCompacting(file, Part.PART_2));
 		}
 	}
 
