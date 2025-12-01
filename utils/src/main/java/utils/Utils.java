@@ -55,6 +55,11 @@ public class Utils {
 		return Arrays.stream(splitLines(str)).map(String::toCharArray).toArray(char[][]::new);
 	}
 
+	public static int[][] to2dIntArray(final String str) {
+		return Arrays.stream(splitLines(str)).map(line -> line.chars().map(c -> c - '0').toArray())
+				.toArray(int[][]::new);
+	}
+
 	public static String toString(final char[][] twoDimensionArray) {
 		return Arrays.stream(twoDimensionArray).map(String::valueOf)
 				.collect(Collectors.joining(System.lineSeparator()));

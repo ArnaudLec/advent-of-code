@@ -2,11 +2,7 @@ package utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.HttpCookie;
-import java.net.ProxySelector;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -37,12 +33,12 @@ public class PrepareDay {
 		year = parsedArgs[0];
 		int currentYear = Year.now().getValue();
 		if (year < 2015 || year > currentYear) {
-			usage("Year [%d] must be between 2015 and %d".formatted(args[0], currentYear));
+			usage("Year [%s] must be between 2015 and %d".formatted(args[0], currentYear));
 		}
 
 		day = parsedArgs[1];
 		if (day < 1 || day > 25) {
-			usage("Day [%d] must be between 1 and 25".formatted(args[1]));
+			usage("Day [%s] must be between 1 and 25".formatted(args[1]));
 		}
 
 		dayStr = "%02d".formatted(day);
@@ -52,7 +48,7 @@ public class PrepareDay {
 		prepareTestClass();
 		downloadInput();
 
-		System.out.print("Day %s of year %d is ready. Happy coding !".formatted(day, year));
+		System.out.printf("Day %d of year %d is ready. Happy coding !", day, year);
 	}
 
 	private static void prepareMainClass() throws IOException {
@@ -88,18 +84,19 @@ public class PrepareDay {
 
 		CookieManager cookieHandler = new CookieManager();
 		cookieHandler.getCookieStore().add(new URI("https://adventofcode.com"), sessionCookie);
-		HttpClient client = HttpClient.newBuilder().cookieHandler(cookieHandler).proxy(ProxySelector.getDefault())
-				.build();
 
-		HttpRequest request = HttpRequest.newBuilder().GET()
-				.uri(new URI("https://adventofcode.com/%d/day/%d/input".formatted(year, day))).build();
+		try (HttpClient client = HttpClient.newBuilder().cookieHandler(cookieHandler).proxy(ProxySelector.getDefault())
+            .build()) {
 
-		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+      HttpRequest request = HttpRequest.newBuilder().GET()
+              .uri(new URI("https://adventofcode.com/%d/day/%d/input".formatted(year, day))).build();
 
-		Path inputsFolderPath = yearProjectPath.resolve("src/test/resources/inputs/");
-		Files.createDirectories(inputsFolderPath);
+			HttpResponse<String>   response = client.send(request, BodyHandlers.ofString());
+			Path inputsFolderPath = yearProjectPath.resolve("src/test/resources/inputs/");
+			Files.createDirectories(inputsFolderPath);
 
-		stringToFile(response.body(), inputsFolderPath.resolve("day%s-input.txt".formatted(dayStr)));
+			stringToFile(response.body(), inputsFolderPath.resolve("day%s-input.txt".formatted(dayStr)));
+    }
 	}
 
 	private static void stringToFile(String fileContent, Path inputFilePath) throws IOException {

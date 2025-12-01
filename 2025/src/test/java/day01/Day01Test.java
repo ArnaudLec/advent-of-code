@@ -1,6 +1,7 @@
 package day01;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,30 +49,59 @@ class Day01Test
     @Test
     void example()
     {
-      assertEquals(3, Day01.calc(parsedExample));
+      assertEquals(3, Day01.calc(parsedExample, Part.PART_1));
     }
 
     @Test
     void inputFile()
     {
-      System.out.println(Day01.calc(parsedInput));
+      System.out.println(Day01.calc(parsedInput, Part.PART_1));
     }
   }
 
   @Nested
   class Part2
   {
-
     @Test
     void example()
     {
-      assertEquals(6, Day01.calc(parsedExample));
+      assertEquals(6, Day01.calc(parsedExample, Part.PART_2));
+    }
+    
+    @Test
+    void debug()
+    { 
+      assertEquals(8, Day01.calc(Day01.parse("R823"), Part.PART_2));
+      assertEquals(4, Day01.calc(Day01.parse("""
+          R50
+          R50
+          L50
+          L50
+          R75
+          L50
+          """), Part.PART_2));
+      assertEquals(4, Day01.calc(Day01.parse("""
+        R50
+        L50
+        L50
+        R50
+        R50
+        R100
+        """), Part.PART_2));
+
+      assertEquals(2, Day01.calc(Day01.parse("""
+        L50
+        L50
+        L50
+        """), Part.PART_2));
     }
 
     @Test
-    void inputFile() throws Exception
+    void inputFile()
     {
-      System.out.println(Day01.calc(parsedInput));
+      int calc = Day01.calc(parsedInput, Part.PART_2);
+      assertThat(calc).isEqualTo(6695);
+      System.out.println(calc);
     }
   }
 
