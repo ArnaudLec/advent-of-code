@@ -1,104 +1,81 @@
 package day01;
 
+import utils.Utils;
+
 import java.util.Arrays;
 import java.util.List;
-
-import utils.Part;
-import utils.Utils;
 
 class Day01
 {
   private static final int DIAL_START = 50;
 
-  public static List<Rotation> parse(String input)
+  public static Rotations parse(String input)
   {
-    return Arrays.stream(Utils.splitLines(input))
+    return new Rotations(Arrays.stream(Utils.splitLines(input))
       .map(Rotation::new)
-      .toList();
+      .toList());
   }
 
-  public static int calc(List<Rotation> rotations, Part part)
-  {
-    int dial = DIAL_START;
-    int count = 0;
-    int dialBruteforce = DIAL_START;
-    int countBrutefore = 0;
+  public record Rotations(List<Rotation> rotations){
 
-    for (Rotation rotation : rotations)
-    {
-      int dialBeforeRotation = dial;
-      if (rotation.dir == Direction.LEFT)
+    public int calcPart1(){
+      int dial = DIAL_START;
+      int count = 0;
+
+      for (Rotation rotation : rotations)
       {
-        dial -= rotation.count;
-        while (dial < 0)
+        if (rotation.dir == Direction.LEFT)
         {
-          if (part == Part.PART_2)
+          dial -= rotation.count;
+          while (dial < 0)
           {
-            count++;
+            dial += 100;
           }
-          dial += 100;
         }
-
-      }
-      else
-      {
-        dial += rotation.count;
-        while (dial >= 100)
+        else
         {
-          if (part == Part.PART_2)
+          dial += rotation.count;
+          while (dial >= 100)
           {
-            count++;
+            dial -= 100;
           }
-          dial -= 100;
+        }
+        if (dial == 0)
+        {
+          count++;
         }
       }
-      if (part == Part.PART_1 && dial == 0)
-      {
-        count++;
-      }
+      return count;
+    }
 
-      System.out.printf("%2d move %s results in dial %2d (count %d)%n", dialBeforeRotation,
-        rotation, dial, count);
+    public int calcPart2(){
+      int dial = DIAL_START;
+      int count = 0;
 
-      // debug bruteforce p2
-      if (part == Part.PART_2)
+      for (Rotation rotation : rotations)
       {
         for (int i = 0; i < rotation.count; i++)
         {
-          if (rotation.dir == Direction.LEFT)
+          dial += rotation.dir == Direction.LEFT ? -1 : 1;
+          if (dial == -1)
           {
-            dialBruteforce--;
+            dial = 99;
           }
-          else
+          else if (dial == 100)
           {
-            dialBruteforce++;
+            dial = 0;
           }
-          if (dialBruteforce == -1)
+          if (dial == 0)
           {
-            dialBruteforce = 99;
+            count++;
           }
-          else if (dialBruteforce == 100)
-          {
-            dialBruteforce = 0;
-          }
-          if (dialBruteforce == 0)
-          {
-            countBrutefore++;
-          }
-        }
-        if (dialBruteforce != dial || countBrutefore != count)
-        {
-          System.out.printf("BRUTEFORE: %2d move %s results in dial %2d (count %d)%n",
-            dialBeforeRotation, rotation, dialBruteforce, countBrutefore);
-          // throw new RuntimeException("Failing on " + rotation);
         }
       }
-
+      return count;
     }
-    return count;
   }
 
-  public record Rotation(Direction dir, int count)
+  private record Rotation(Direction dir, int count)
   {
     public Rotation(String line)
     {
@@ -108,7 +85,7 @@ class Day01
     }
 
     @Override
-    public final String toString()
+    public String toString()
     {
       return "%5s %3d".formatted(dir, count);
     }

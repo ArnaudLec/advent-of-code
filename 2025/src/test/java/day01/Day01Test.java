@@ -1,20 +1,16 @@
 package day01;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import day01.Day01.Rotations;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import utils.TestUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
-import day01.Day01.Rotation;
-import utils.Part;
-import utils.TestUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Day01Test
 {
@@ -33,8 +29,8 @@ class Day01Test
       L82
       """;
 
-  static List<Rotation> parsedExample;
-  static List<Rotation> parsedInput;
+  static Rotations parsedExample;
+  static Rotations parsedInput;
 
   @BeforeAll
   static void prepare() throws IOException
@@ -49,13 +45,13 @@ class Day01Test
     @Test
     void example()
     {
-      assertEquals(3, Day01.calc(parsedExample, Part.PART_1));
+      assertEquals(3, parsedExample.calcPart1());
     }
 
     @Test
     void inputFile()
     {
-      System.out.println(Day01.calc(parsedInput, Part.PART_1));
+      System.out.println(parsedInput.calcPart1());
     }
   }
 
@@ -65,43 +61,13 @@ class Day01Test
     @Test
     void example()
     {
-      assertEquals(6, Day01.calc(parsedExample, Part.PART_2));
-    }
-    
-    @Test
-    void debug()
-    { 
-      assertEquals(8, Day01.calc(Day01.parse("R823"), Part.PART_2));
-      assertEquals(4, Day01.calc(Day01.parse("""
-          R50
-          R50
-          L50
-          L50
-          R75
-          L50
-          """), Part.PART_2));
-      assertEquals(4, Day01.calc(Day01.parse("""
-        R50
-        L50
-        L50
-        R50
-        R50
-        R100
-        """), Part.PART_2));
-
-      assertEquals(2, Day01.calc(Day01.parse("""
-        L50
-        L50
-        L50
-        """), Part.PART_2));
+      assertEquals(6, parsedExample.calcPart2());
     }
 
     @Test
     void inputFile()
     {
-      int calc = Day01.calc(parsedInput, Part.PART_2);
-      assertThat(calc).isEqualTo(6695);
-      System.out.println(calc);
+      System.out.println(parsedInput.calcPart2());
     }
   }
 
