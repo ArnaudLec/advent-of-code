@@ -1,19 +1,16 @@
 package day01;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import day01.Day01.Rotations;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import utils.TestUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
-import day01.Day01.Rotation;
-import utils.Part;
-import utils.TestUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Day01Test
 {
@@ -32,8 +29,8 @@ class Day01Test
       L82
       """;
 
-  static List<Rotation> parsedExample;
-  static List<Rotation> parsedInput;
+  static Rotations parsedExample;
+  static Rotations parsedInput;
 
   @BeforeAll
   static void prepare() throws IOException
@@ -48,30 +45,29 @@ class Day01Test
     @Test
     void example()
     {
-      assertEquals(3, Day01.calc(parsedExample));
+      assertEquals(3, parsedExample.calcPart1());
     }
 
     @Test
     void inputFile()
     {
-      System.out.println(Day01.calc(parsedInput));
+      System.out.println(parsedInput.calcPart1());
     }
   }
 
   @Nested
   class Part2
   {
-
     @Test
     void example()
     {
-      assertEquals(6, Day01.calc(parsedExample));
+      assertEquals(6, parsedExample.calcPart2());
     }
 
     @Test
-    void inputFile() throws Exception
+    void inputFile()
     {
-      System.out.println(Day01.calc(parsedInput));
+      System.out.println(parsedInput.calcPart2());
     }
   }
 

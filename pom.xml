@@ -10,8 +10,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
+        <module>utils</module>
 		<module>2023</module>
-		<module>utils</module>
 		<module>2024</module>
 		<module>2025</module>
 	</modules>
