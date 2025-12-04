@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import day02.Day02.Ranges;
+import utils.Part;
 import utils.TestUtils;
 
 class Day02Test
@@ -21,12 +22,11 @@ class Day02Test
   @Nested
   class Part1
   {
-
     @Test
     void example()
     {
       assertEquals(1_227_775_554L, Day02.parse(EXAMPLE)
-        .getSumInvalidOfIds());
+        .getSumInvalidOfIds(Part.PART_1));
     }
 
     @Test
@@ -34,26 +34,26 @@ class Day02Test
     {
       Ranges ranges = Day02.parse(Files.readString(INPUT_FILE_PATH));
 
-      System.out.println(ranges.getSumInvalidOfIds());
+      System.out.println(ranges.getSumInvalidOfIds(Part.PART_1));
     }
   }
 
   @Nested
   class Part2
   {
-
     @Test
-    void example() throws Exception
+    void example()
     {
-      assertEquals(0, EXAMPLE);
+      assertEquals(4_174_379_265L, Day02.parse(EXAMPLE)
+        .getSumInvalidOfIds(Part.PART_2));
     }
 
     @Test
     void inputFile() throws Exception
     {
-      String file = Files.readString(INPUT_FILE_PATH);
+      Ranges ranges = Day02.parse(Files.readString(INPUT_FILE_PATH));
 
-      System.out.println();
+      System.out.println(ranges.getSumInvalidOfIds(Part.PART_2));
     }
   }
 

@@ -3,10 +3,15 @@ package day02;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.LongStream;
+
+import utils.Part;
 
 class Day02
 {
   private static final Pattern RANGE_SPLIT_PATTERN = Pattern.compile("-");
+  private static final Pattern PART1_PATTERN = Pattern.compile("^(\\d+)\\1$");
+  private static final Pattern PART2_PATTERN = Pattern.compile("^(\\d+)\\1+$");
 
   public static Ranges parse(String input)
   {
@@ -21,48 +26,31 @@ class Day02
 
   public record Ranges(List<Range> ranges)
   {
-    public long getSumInvalidOfIds()
+    public long getSumInvalidOfIds(Part part)
     {
       return ranges.stream()
-        .mapToLong(Range::sumInvalidIds)
+        .mapToLong(
+          range -> range.sumInvalidIds(part == Part.PART_1 ? PART1_PATTERN : PART2_PATTERN))
         .sum();
     }
   }
 
   private record Range(String startStr, String endStr)
   {
-    public long sumInvalidIds()
+    public long sumInvalidIds(Pattern pattern)
     {
-      int startLen = startStr.length();
-      if (startLen % 2 == 1 && endStr.length() == startLen)
-      {
-        // numbers cannot be symmetric if odd length
-        return 0;
-      }
-
       long start = Long.parseLong(startStr);
       long end = Long.parseLong(endStr);
+      return LongStream.range(start, end + 1)
+        .filter(l -> isInvalid(pattern, l))
+        .sum();
+    }
 
-      long invalidIdSum = 0;
-
-      String nextStr =
-        startLen % 2 == 0 ? startStr.substring(0, startLen / 2) : ("1" + "0".repeat(startLen / 2));
-
-      int startOfNumber = Integer.parseInt(nextStr);
-      long numberToTest;
-      do
-      {
-        numberToTest =
-          Long.parseLong(String.valueOf(startOfNumber) + String.valueOf(startOfNumber));
-        if (start <= numberToTest && numberToTest <= end)
-        {
-          invalidIdSum += numberToTest;
-        }
-        startOfNumber++;
-      }
-      while (numberToTest <= end);
-
-      return invalidIdSum;
+    private boolean isInvalid(Pattern pattern, long l)
+    {
+      String strLong = String.valueOf(l);
+      return pattern.matcher(strLong)
+        .matches();
     }
   }
 }
